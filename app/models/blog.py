@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy.dialects.postgresql import JSONB
 from datetime import datetime
+
 from app.database import Base
 
 
@@ -11,7 +13,12 @@ class Blog(Base):
 
     title = Column(String(255), nullable=False)
 
-    slug = Column(String(255), unique=True, nullable=False)
+    slug = Column(
+        String(255),
+        unique=True,
+        nullable=False,
+        index=True
+    )
 
     excerpt = Column(Text)
 
@@ -23,7 +30,12 @@ class Blog(Base):
 
     category = Column(String(100))
 
-    status = Column(String(50), default="draft")
+    
+    status = Column(
+        String(50),
+        nullable=False,
+        default="draft"
+    )
 
     published_at = Column(DateTime, nullable=True)
 
