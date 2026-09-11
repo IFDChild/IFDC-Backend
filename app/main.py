@@ -6,10 +6,14 @@ from app.database import Base, SessionLocal, engine
 from app.models.blog import Blog
 from app.models.user import User
 from app.models.volunteer import VolunteerApplication
+from app.models.partner import PartnerInquiry
+from app.models.resource import Resource
 from app.routers.auth import router as auth_router, seed_admin
 from app.routers.blogs import router as blog_router
 from app.routers.uploads import router as upload_router
 from app.routers.volunteers import router as volunteer_router
+from app.routers.partners import router as partner_router
+from app.routers.resources import router as resource_router
 
 
 
@@ -50,6 +54,8 @@ app.include_router(blog_router)
 app.include_router(upload_router)
 app.include_router(auth_router)
 app.include_router(volunteer_router)
+app.include_router(partner_router)
+app.include_router(resource_router)
 
 @app.get("/")
 def root():

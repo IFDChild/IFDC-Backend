@@ -6,3 +6,4 @@ python-dotenv
 PyJWT
 pydantic[email]
 python-multipart
+pymupdf
