@@ -10,6 +10,7 @@ from app.models.partner import PartnerInquiry
 from app.models.resource import Resource
 from app.models.contact import ContactMessage
 from app.models.news import News
+from app.models.donation import DonationInterest
 from app.routers.auth import router as auth_router, seed_admin
 from app.routers.blogs import router as blog_router
 from app.routers.uploads import router as upload_router
@@ -18,6 +19,7 @@ from app.routers.partners import router as partner_router
 from app.routers.resources import router as resource_router
 from app.routers.contact import router as contact_router
 from app.routers.news import router as news_router
+from app.routers.donations import router as donation_router
 
 
 
@@ -62,6 +64,7 @@ app.include_router(partner_router)
 app.include_router(resource_router)
 app.include_router(contact_router)
 app.include_router(news_router)
+app.include_router(donation_router)
 
 @app.get("/")
 def root():
