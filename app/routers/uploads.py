@@ -11,7 +11,8 @@ router = APIRouter(
 )
 
 
-UPLOAD_DIR = "uploads"
+# On Railway this points at the mounted volume (e.g. /data) so files survive redeploys.
+UPLOAD_DIR = os.getenv("UPLOAD_DIR", "uploads")
 
 THUMB_DIR = os.path.join(UPLOAD_DIR, "thumbs")
 
