@@ -52,7 +52,13 @@ LOCAL_ORIGINS = [
     "http://localhost:5181"
 ]
 
-ALLOWED_ORIGINS = LOCAL_ORIGINS + [
+# The project's own deployed sites, so the API works even before ALLOWED_ORIGINS is set.
+DEPLOYED_ORIGINS = [
+    "https://ifdc-frontend.vercel.app",
+    "https://ifdc-admin.vercel.app"
+]
+
+ALLOWED_ORIGINS = LOCAL_ORIGINS + DEPLOYED_ORIGINS + [
     origin.strip().rstrip("/")
     for origin in os.getenv("ALLOWED_ORIGINS", "").split(",")
     if origin.strip()
