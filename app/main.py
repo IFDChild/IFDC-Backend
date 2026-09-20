@@ -54,6 +54,8 @@ LOCAL_ORIGINS = [
 
 # The project's own deployed sites, so the API works even before ALLOWED_ORIGINS is set.
 DEPLOYED_ORIGINS = [
+    "https://ifdchild.org",
+    "https://www.ifdchild.org",
     "https://ifdc-frontend.vercel.app",
     "https://ifdc-admin.vercel.app"
 ]
