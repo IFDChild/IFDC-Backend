@@ -162,6 +162,65 @@ def get_blog_by_slug(
     return blog
 
 
+@router.get(
+    "/{blog_id}",
+    response_model=BlogResponse
+)
+def get_blog(
+    blog_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Admin: one post, published or draft, for the edit form."""
+    blog = db.query(Blog).filter(Blog.id == blog_id).first()
+
+    if blog is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Blog post not found"
+        )
+
+    return blog
+
+
+@router.patch(
+    "/{blog_id}",
+    response_model=BlogResponse
+)
+def update_blog(
+    blog_id: int,
+    payload: BlogUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    blog = db.query(Blog).filter(Blog.id == blog_id).first()
+
+    if blog is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Blog post not found"
+        )
+
+    changes = payload.model_dump(exclude_unset=True)
+
+    # A new title means a new address; keep it unique against other posts.
+    if "title" in changes and changes["title"] != blog.title:
+        blog.slug = unique_slug(changes["title"], db, blog_id=blog.id)
+
+    for field, value in changes.items():
+        setattr(blog, field, value)
+
+    if changes.get("status") == "published" and blog.published_at is None:
+        blog.published_at = datetime.utcnow()
+    elif changes.get("status") == "draft":
+        blog.published_at = None
+
+    db.commit()
+    db.refresh(blog)
+
+    return blog
+
+
 @router.delete(
     "/{blog_id}",
     status_code=204
